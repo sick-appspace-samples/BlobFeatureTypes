@@ -28,7 +28,6 @@ local DELAY = 2000 -- ms between each type for demonstration purpose
 
 -- Viewer
 local viewer = View.create()
-viewer:setID('viewer2D')
 
 -- Decorations
 local regionDecoration = View.PixelRegionDecoration.create()
