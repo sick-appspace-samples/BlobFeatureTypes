@@ -6,7 +6,7 @@ print('AppEngine Version: ' .. Engine.getVersion())
 local DELAY = 2000 -- ms between each type for demonstration purpose
 
 -- Viewer
-local viewer = View.create('viewer2D1')
+local viewer = View.create()
 
 -- Decorations
 local regionDecoration = View.PixelRegionDecoration.create()
@@ -28,14 +28,16 @@ headerTextDecoration:setSize(30)
 
 --Start of Function and Event Scope---------------------------------------------
 
--- Help function to print feature values for each blob
---@addFeatureText(x:float, y:float, text:string, imageID:string)
-local function addFeatureText(x, y, text, imageID)
+--- Help function to print feature values for each blob
+---@param x float
+---@param y float
+---@param text string
+local function addFeatureText(x, y, text)
   local textDeco = View.TextDecoration.create()
   textDeco:setColor(0, 0, 230)
   textDeco:setSize(15)
   textDeco:setPosition(x, y)
-  viewer:addText(text, textDeco, nil, imageID)
+  viewer:addText(text, textDeco)
 end
 
 -- Area
@@ -44,9 +46,9 @@ local function area()
   local img = Image.load('resources/CompactnessArea.bmp')
   img = img:toGray()
   img = img:binarize(150, 255)
-  local imageID = viewer:addImage(img)
+  viewer:addImage(img)
   headerTextDecoration:setPosition(400, 220)
-  viewer:addText('Area', headerTextDecoration, nil, imageID)
+  viewer:addText('Area', headerTextDecoration)
 
   -- Finding blobs
   local objectRegion = img:threshold(0, 150)
@@ -58,8 +60,8 @@ local function area()
     local box = blobs[i]:getBoundingBoxOriented(img)
     local center, _, _, _ = box:getRectangleParameters()
     -- Graphics
-    viewer:addPixelRegion(blobs[i], regionDecoration, nil, imageID)
-    addFeatureText(center:getX() - 40, center:getY() + 70, 'A = ' .. math.floor(feature), imageID)
+    viewer:addPixelRegion(blobs[i], regionDecoration)
+    addFeatureText(center:getX() - 40, center:getY() + 70, 'A = ' .. math.floor(feature))
   end
   viewer:present()
 end
@@ -70,10 +72,10 @@ local function centroid()
   local img = Image.load('resources/ElongationCentroid.bmp')
   img = img:toGray()
   img = img:binarize(150, 255)
-  local imageID = viewer:addImage(img)
+  viewer:addImage(img)
 
   headerTextDecoration:setPosition(380, 220)
-  viewer:addText('Centroid', headerTextDecoration, nil, imageID)
+  viewer:addText('Centroid', headerTextDecoration)
 
   -- Finding blobs
   local objectRegion = img:threshold(0, 150)
@@ -84,9 +86,9 @@ local function centroid()
     local feature = blobs[i]:getCenterOfGravity(img)
 
     -- Graphics
-    viewer:addShape(feature, pointDecoration, nil, imageID)
+    viewer:addShape(feature, pointDecoration)
     local str = '(' ..  math.floor(feature:getX()) .. ',' .. math.floor(feature:getY()) .. ')'
-    addFeatureText(feature:getX() - 40, feature:getY() + 70, str, imageID)
+    addFeatureText(feature:getX() - 40, feature:getY() + 70, str)
   end
   viewer:present()
 end
@@ -97,10 +99,10 @@ local function elongation()
   local img = Image.load('resources/ElongationCentroid.bmp')
   img = img:toGray()
   img = img:binarize(150, 255)
-  local imageID = viewer:addImage(img)
+  viewer:addImage(img)
 
   headerTextDecoration:setPosition(350, 220)
-  viewer:addText('Elongation', headerTextDecoration, nil, imageID)
+  viewer:addText('Elongation', headerTextDecoration)
 
   -- Finding blobs
   local objectRegion = img:threshold(0, 150)
@@ -112,8 +114,8 @@ local function elongation()
     local box = blobs[i]:getBoundingBoxOriented(img)
     local center, _, _, _ = box:getRectangleParameters()
     -- Graphics
-    viewer:addShape(box, lineDecoration, nil, imageID)
-    addFeatureText(center:getX() - 30, center:getY() + 70, 'E = ' .. math.floor(feature * 10) / 10, imageID)
+    viewer:addShape(box, lineDecoration)
+    addFeatureText(center:getX() - 30, center:getY() + 70, 'E = ' .. math.floor(feature * 10) / 10)
   end
   viewer:present()
 end
@@ -124,10 +126,10 @@ local function convexity()
   local img = Image.load('resources/Convexity.bmp')
   img = img:toGray()
   img = img:binarize(150, 255)
-  local imageID = viewer:addImage(img)
+  viewer:addImage(img)
 
   headerTextDecoration:setPosition(370, 220)
-  viewer:addText('Convexity', headerTextDecoration, nil, imageID)
+  viewer:addText('Convexity', headerTextDecoration)
 
   -- Finding blobs
   local objectRegion = img:threshold(0, 150)
@@ -141,8 +143,8 @@ local function convexity()
     local box = blobs[i]:getBoundingBoxOriented(img)
     local center, _, _, _ = box:getRectangleParameters()
     -- Graphics
-    viewer:addPixelRegion(border, regionDecoration, nil, imageID)
-    addFeatureText(center:getX() - 30, center:getY() + 70, 'C = ' .. math.floor(feature * 10) / 10, imageID)
+    viewer:addPixelRegion(border, regionDecoration)
+    addFeatureText(center:getX() - 30, center:getY() + 70, 'C = ' .. math.floor(feature * 10) / 10)
   end
   viewer:present()
 end
@@ -153,10 +155,10 @@ local function perimeterLength()
   local img = Image.load('resources/PerimeterLength.bmp')
   img = img:toGray()
   img = img:binarize(150, 255)
-  local imageID = viewer:addImage(img)
+  viewer:addImage(img)
 
   headerTextDecoration:setPosition(280, 220)
-  viewer:addText('Perimeter length', headerTextDecoration, nil, imageID)
+  viewer:addText('Perimeter length', headerTextDecoration)
 
   -- Finding blobs
   local objectRegion = img:threshold(0, 150)
@@ -172,8 +174,8 @@ local function perimeterLength()
     local center, _, _, _ = box:getRectangleParameters()
 
     -- Graphics
-    viewer:addPixelRegion(border, regionDecoration, nil, imageID)
-    addFeatureText(center:getX() - 40, center:getY() + 70, 'P = ' .. math.floor(feature), imageID)
+    viewer:addPixelRegion(border, regionDecoration)
+    addFeatureText(center:getX() - 40, center:getY() + 70, 'P = ' .. math.floor(feature))
   end
   viewer:present()
 end
@@ -184,10 +186,10 @@ local function compactness()
   local img = Image.load('resources/CompactnessArea.bmp')
   img = img:toGray()
   img = img:binarize(150, 255)
-  local imageID = viewer:addImage(img)
+  viewer:addImage(img)
 
   headerTextDecoration:setPosition(320, 220)
-  viewer:addText('Compactness', headerTextDecoration, nil, imageID)
+  viewer:addText('Compactness', headerTextDecoration)
 
   -- Finding blobs
   local objectRegion = img:threshold(0, 150)
@@ -200,8 +202,8 @@ local function compactness()
     local center, _, _, _ = box:getRectangleParameters()
 
     -- Graphics
-    viewer:addPixelRegion(blobs[i], regionDecoration, nil, imageID)
-    addFeatureText(center:getX() - 40, center:getY() + 70, 'C = ' .. math.floor(feature * 100) / 100, imageID)
+    viewer:addPixelRegion(blobs[i], regionDecoration)
+    addFeatureText(center:getX() - 40, center:getY() + 70, 'C = ' .. math.floor(feature * 100) / 100)
   end
   viewer:present()
 end
@@ -212,10 +214,10 @@ local function convexHull()
   local img = Image.load('resources/ConvexHull.bmp')
   img = img:toGray()
   img = img:binarize(150, 255)
-  local imageID = viewer:addImage(img)
+  viewer:addImage(img)
 
   headerTextDecoration:setPosition(350, 220)
-  viewer:addText('Convex hull', headerTextDecoration, nil, imageID)
+  viewer:addText('Convex hull', headerTextDecoration)
 
   -- Finding blobs
   local objectRegion = img:threshold(0, 150)
@@ -225,7 +227,7 @@ local function convexHull()
   for i = 1, #blobs do
     local feature = blobs[i]:getConvexHull()
     -- Graphics
-    viewer:addPixelRegion(feature, regionDecoration, nil, imageID)
+    viewer:addPixelRegion(feature, regionDecoration)
   end
   viewer:present()
 end
@@ -236,10 +238,10 @@ local function countHoles()
   local img = Image.load('resources/Holes.bmp')
   img = img:toGray()
   img = img:binarize(150, 255)
-  local imageID = viewer:addImage(img)
+  viewer:addImage(img)
 
   headerTextDecoration:setPosition(350, 220)
-  viewer:addText('Count holes', headerTextDecoration, nil, imageID)
+  viewer:addText('Count holes', headerTextDecoration)
 
   -- Finding blobs
   local objectRegion = img:threshold(0, 150)
@@ -253,8 +255,8 @@ local function countHoles()
     local center = blobs[i]:getCenterOfGravity(img)
 
     -- Graphics
-    viewer:addPixelRegion(objectHoles, regionDecoration, nil, imageID)
-    addFeatureText(center:getX() - 20, center:getY() + 60, '# = ' .. feature, imageID)
+    viewer:addPixelRegion(objectHoles, regionDecoration)
+    addFeatureText(center:getX() - 20, center:getY() + 60, '# = ' .. feature)
   end
   viewer:present()
 end
@@ -265,10 +267,10 @@ local function orientation()
   local img = Image.load('resources/Convexity.bmp')
   img = img:toGray()
   img = img:binarize(150, 255)
-  local imageID = viewer:addImage(img)
+  viewer:addImage(img)
 
   headerTextDecoration:setPosition(200, 220)
-  viewer:addText('Orientation (principal axes)', headerTextDecoration, nil, imageID)
+  viewer:addText('Orientation (principal axes)', headerTextDecoration)
 
   -- Finding blobs
   local objectRegion = img:threshold(0, 150)
@@ -286,17 +288,17 @@ local function orientation()
     local Y = center:getY() + 2 * major * math.sin(angle)
     local endpointMajor = Point.create(X, Y)
     local majorAxis = Shape.createLineSegment(center, endpointMajor)
-    viewer:addShape(majorAxis, lineDecoration, nil, imageID)
+    viewer:addShape(majorAxis, lineDecoration)
 
     -- Plotting minor axis
     X = center:getX() + 2 * minor * math.cos(angle + 3.1415 / 2)
     Y = center:getY() + 2 * minor * math.sin(angle + 3.1415 / 2)
     local endpointMinor = Point.create(X, Y)
     local minorAxis = Shape.createLineSegment(center, endpointMinor)
-    viewer:addShape(minorAxis, lineDecoration, nil, imageID)
+    viewer:addShape(minorAxis, lineDecoration)
 
     -- Printing feature value
-    addFeatureText(center:getX() - 50, center:getY() + 60, 'Deg = ' .. math.floor(math.deg(angle) * 10) / 10, imageID)
+    addFeatureText(center:getX() - 50, center:getY() + 60, 'Deg = ' .. math.floor(math.deg(angle) * 10) / 10)
   end
   viewer:present()
 end

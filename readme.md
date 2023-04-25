@@ -1,7 +1,9 @@
 ## BlobFeatureTypes
+
 Extracting and visualizing common blobs features.
 
 ### How to Run
+
 Starting this sample is possible either by running the App (F5) or
 debugging (F7+F10). Setting breakpoint on the first row inside the 'main'
 function allows debugging step-by-step after 'Engine.OnStarted' event.
@@ -12,7 +14,9 @@ is required. For example SIM4000 with latest firmware.
 Alternatively the Emulator on AppStudio 2.3 or higher can be used.
 
 ### More Information
+
 Tutorial "Algorithms - Blob Analysis"
 
 ### Topics
-Algorithm, Image-2D, Blob-Analysis, Sample, SICK-AppSpace
+
+algorithm, image-2d, blob-analysis, sample, sick-appspace
